@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check comment body
-      - run: |
+        run: |
           echo "oke bro ${{ github.event.check_run }}"
