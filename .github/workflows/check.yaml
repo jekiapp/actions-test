@@ -16,4 +16,4 @@ jobs:
             '{ "name": "squash", "head_sha": "'$sha'","details_url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks", "status": "in_progress", "output": { "title": "Squash", "summary": "combine all commits in this PR into one" } }')
 
           check_id=$(echo $checks | jq -r '.id')
-          curl -X PATCH https://api.github.com/repos/${{ github.repository }}/check-runs/$check_id -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.antiope-preview+json' --data '{ "status": "completed" }'
+          curl -X PATCH https://api.github.com/repos/${{ github.repository }}/check-runs/$check_id -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.antiope-preview+json' --data '{ "status": "completed", "conclusion": "success" }'
