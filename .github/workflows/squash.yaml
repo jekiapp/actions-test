@@ -1,6 +1,6 @@
 name: Squash
 on:
-  issue_comment:
+  check_run:
     types: [created]
 
 jobs:
