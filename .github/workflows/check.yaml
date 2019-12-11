@@ -12,5 +12,9 @@ jobs:
         run: |
           pr=$(curl -X GET ${{ github.event.issue.pull_request.url }} -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}')
           sha=$(echo $pr | jq -r '.head.sha')
-          curl -X POST https://api.github.com/repos/${{ github.repository }}/check-runs -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.antiope-preview+json' --data \
-            '{ "name": "squash", "head_sha": "'$sha'","details_url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks", "status": "in_progress", "output": { "title": "Squash", "summary": "combine all commits in this PR into one" } }'
+          checks:=$(curl -X POST https://api.github.com/repos/${{ github.repository }}/check-runs -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.antiope-preview+json' --data \
+            '{ "name": "squash", "head_sha": "'$sha'","details_url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks", "status": "in_progress", "output": { "title": "Squash", "summary": "combine all commits in this PR into one" } }')
+
+          check_id=$(echo $checks | jq -r '.id')
+          curl -X PATCH https://api.github.com/repos/${{ github.repository }}/check-runs/$checks_id -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.antiope-preview+json' --data '{ "status": "completed" }'
+
