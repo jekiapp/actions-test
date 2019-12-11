@@ -12,5 +12,5 @@ jobs:
         run: |
           pr=$(curl -X GET ${{ github.event.issue.pull_request.url }} -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}')
           sha=$(echo $pr | jq -r '.head.sha')
-          curl -X POST https://api.github.com/repos/${{ github.repository }}/check-runs -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' 'Accept: application/vnd.github.antiope-preview+json' --data \
+          curl -X POST https://api.github.com/repos/${{ github.repository }}/check-runs -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.antiope-preview+json' --data \
             '{ "name": "squash", "head_sha": "$(sha)", "status": "in_progress", "output": { "title": "Squash", "summary": "combine all commits in this PR into one", "text": "" } }'
